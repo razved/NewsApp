@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="section_rectangle_radius">6dp</dimen>
+    <dimen name="section_rectangle_hight">15dp</dimen>
+    <dimen name="section_padding">8dp</dimen>
+    <dimen name="author_padding_left">16dp</dimen>
+</resources>
