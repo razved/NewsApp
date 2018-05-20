@@ -14,8 +14,8 @@
             android:id="@+id/section_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/section_padding"
-            android:paddingEnd="@dimen/section_padding"
+            android:paddingLeft="@dimen/section_padding"
+            android:paddingRight="@dimen/section_padding"
             android:background="@drawable/section_rectangle"
             android:textAppearance="?android:attr/textAppearanceSmall"
             tools:text="@string/sample_section_name"
@@ -24,8 +24,8 @@
             android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/author_padding_left"
-            android:layout_toRightOf="@id/section_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/author_padding_left"
             android:textColor="@color/author_name"
             tools:text="@string/sample_author_name"/>
         <TextView

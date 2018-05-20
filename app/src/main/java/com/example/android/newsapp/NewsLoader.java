@@ -18,7 +18,6 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     protected void onStartLoading() {
-        //super.onStartLoading();
         forceLoad();
     }
 

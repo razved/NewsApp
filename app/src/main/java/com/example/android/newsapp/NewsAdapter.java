@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class NewsAdapter extends ArrayAdapter<News> {
@@ -44,17 +42,27 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         //Get news information at given position
         News currentNews = getItem(position);
+        //show title, section
         String newsTitle = currentNews.getTitle();
-        String newsFullDate = currentNews.getNewsDate();
-        String newsSectionName = currentNews.getSectionName();
-        //Make human-readable date and time format
-        String newsDate = dateParser(newsFullDate);
-        String newsTime = timeParser(newsFullDate);
-        //Set title, date and time of news to TextView
         holder.newsTitle.setText(newsTitle);
+        String newsSectionName = currentNews.getSectionName();
+        holder.sectionName.setText(newsSectionName);
+
+        String newsDate;
+        String newsTime;
+        //check is there date or not and show if it is, or show "-" if there is not
+        if (currentNews.hasNewsDate()) {
+            String newsFullDate = currentNews.getNewsDate();
+            //Make human-readable date and time format
+            newsDate = dateParser(newsFullDate);
+            newsTime = timeParser(newsFullDate);
+        } else {
+            newsDate = "-";
+            newsTime = "-";
+        }
+        //Set title, date and time of news to TextView
         holder.newsDate.setText(newsDate);
         holder.newsTime.setText(newsTime);
-        holder.sectionName.setText(newsSectionName);
         //set background color correspond to section name
         GradientDrawable sectionColor = (GradientDrawable) holder.sectionName.getBackground();
         int sectionBackgroundColor = getSectionColor(newsSectionName);
@@ -99,11 +107,11 @@ public class NewsAdapter extends ArrayAdapter<News> {
         public final TextView sectionName;
         public final TextView authorName;
         public ViewHolder(View view) {
-            newsTitle = (TextView) view.findViewById(R.id.news_title);
-            newsDate =  (TextView) view.findViewById(R.id.news_date);
-            newsTime =  (TextView) view.findViewById(R.id.news_time);
-            sectionName = (TextView) view.findViewById(R.id.section_name);
-            authorName = (TextView) view.findViewById(R.id.author_name);
+            newsTitle =   view.findViewById(R.id.news_title);
+            newsDate =    view.findViewById(R.id.news_date);
+            newsTime =    view.findViewById(R.id.news_time);
+            sectionName = view.findViewById(R.id.section_name);
+            authorName =  view.findViewById(R.id.author_name);
         }
     }
 

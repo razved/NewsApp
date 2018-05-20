@@ -9,9 +9,23 @@ public class News {
     private String sectionName;
     private String authorName = null;
     private boolean hasAuthorName = false;
+    private boolean hasNewsDate = false;
+
 
     /**
-     * constructor for News (without information about author)
+     * constructor for News (without information about author and data)
+     * @param newsTitle title of news
+     * @param newsUrl news url on The Guardian site
+     * @param section the section of news
+     */
+    public News(String newsTitle, String newsUrl, String section) {
+        title = newsTitle;
+        url = newsUrl;
+        sectionName = section;
+    }
+
+    /**
+     * constructor for News (with data and without information about author)
      * @param newsTitle title of news
      * @param newsUrl news url on The Guardian site
      * @param newsDateTime date and time of news publishing
@@ -20,12 +34,16 @@ public class News {
     public News(String newsTitle, String newsUrl, String newsDateTime, String section) {
         title = newsTitle;
         url = newsUrl;
-        newsDate = newsDateTime;
+        if (!newsDateTime.isEmpty()) {
+            newsDate = newsDateTime;
+            hasNewsDate = true;
+        }
         sectionName = section;
+        hasNewsDate = true;
     }
 
     /**
-     * constructor for News (with information about author)
+     * constructor for News (with information about author and date)
      * @param newsTitle title of news
      * @param newsUrl news url on The Guardian site
      * @param newsDateTime date and time of news publishing
@@ -35,7 +53,10 @@ public class News {
     public News(String newsTitle, String newsUrl, String newsDateTime, String section, String author) {
         title = newsTitle;
         url = newsUrl;
-        newsDate = newsDateTime;
+        if (!newsDateTime.isEmpty()) {
+            newsDate = newsDateTime;
+            hasNewsDate = true;
+        }
         sectionName = section;
         authorName = author;
         hasAuthorName = true;
@@ -80,6 +101,10 @@ public class News {
     //
     public boolean hasAuthorName() {
         return hasAuthorName;
+    }
+
+    public boolean hasNewsDate() {
+        return hasNewsDate;
     }
 
     public String toString() {

@@ -1,33 +1,29 @@
 package com.example.android.newsapp;
 
 import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
     //Api-key need to fetch data by using The Guardian API
-    private static final String API_KEY = "acc0381e-10da-4543-b322-f1adea635e65";
+    private static final String API_KEY = "test";
     //URL to fetch data from The Guardian
-    private static final String NEWS_URL = "http://content.guardianapis.com/search?q=android&api-key=" + API_KEY;
+    private static final String NEWS_URL =
+            "http://content.guardianapis.com/search?q=android&show-tags=contributor&api-key=" + API_KEY;
     //TAG for log file
     private static final String LOG_TAG = "MainActivity.java";
     //ID for LoaderManager to download data from The Guardian Site

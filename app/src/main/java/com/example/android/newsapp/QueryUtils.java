@@ -60,10 +60,21 @@ public final class QueryUtils {
                 JSONObject currentNews = resultsArray.getJSONObject(i);
                 String currentNewsTitle = currentNews.getString("webTitle");
                 String currentNewsUrl = currentNews.getString("webUrl");
-                String currentNewsDate = currentNews.getString("webPublicationDate");
+                // there is possibility that news has not date so we use optString instead getString
+                String currentNewsDate = currentNews.optString("webPublicationDate");
                 String currentNewsSection = currentNews.getString("sectionName");
-                newsArray.add(new News(currentNewsTitle, currentNewsUrl,
-                        currentNewsDate, currentNewsSection));
+                //get info about author (if it is)
+                JSONArray currentNewsTags = currentNews.getJSONArray("tags");
+                JSONObject currentNewsTagsObject = currentNewsTags.optJSONObject(0);
+                //if we have not null Tag object we extract author name
+                if (currentNewsTagsObject != null) {
+                    String authorName = currentNewsTagsObject.optString("webTitle");
+                    newsArray.add(new News(currentNewsTitle, currentNewsUrl, currentNewsDate, currentNewsSection, authorName));
+                } else {
+                    // if Tag object is empty, we create News object without author name
+                    newsArray.add(new News(currentNewsTitle, currentNewsUrl,
+                            currentNewsDate, currentNewsSection));
+                }
             }
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
