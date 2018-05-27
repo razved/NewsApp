@@ -28,7 +28,7 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
             return null;
         }
         //Perform HTTP request to the URL and receive a JSON response back
-        List<News> newsList = QueryUtils.fetchNewsData(downloadUrl);
-        return newsList;
+
+        return QueryUtils.fetchNewsData(downloadUrl);
     }
 }

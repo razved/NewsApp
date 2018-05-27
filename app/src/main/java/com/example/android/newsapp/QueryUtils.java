@@ -21,6 +21,9 @@ import java.util.ArrayList;
  */
 public final class QueryUtils {
 
+    private static final int CONNECTION_TIMEOUT = 10000;
+    private static final int READ_TIMEOUT = 15000;
+    private static final int CONNECTION_SUCCESSFULL_CODE = 200;
     private static final String LOG_TAG = "QueryUtils.java";
 
     /**
@@ -112,11 +115,11 @@ public final class QueryUtils {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
+            urlConnection.setReadTimeout(CONNECTION_TIMEOUT);
+            urlConnection.setConnectTimeout(READ_TIMEOUT);
             urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
-            if (responseCode == 200) { // если всё ок, сервер отвечает
+            if (responseCode == CONNECTION_SUCCESSFULL_CODE) { // если всё ок, сервер отвечает
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else { // что-то пошло не так, сервер выдал ошибку
