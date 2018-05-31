@@ -25,7 +25,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
     //Api-key need to fetch data by using The Guardian API
-    private static final String API_KEY = "acc0381e-10da-4543-b322-f1adea635e65";
+    private static final String API_KEY = "test";
     //URL to fetch data from The Guardian
     private static final String NEWS_URL =
             "http://content.guardianapis.com/search";
