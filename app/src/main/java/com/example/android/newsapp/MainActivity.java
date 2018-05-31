@@ -4,26 +4,33 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
     //Api-key need to fetch data by using The Guardian API
-    private static final String API_KEY = "";
+    private static final String API_KEY = "acc0381e-10da-4543-b322-f1adea635e65";
     //URL to fetch data from The Guardian
     private static final String NEWS_URL =
-            "http://content.guardianapis.com/search?q=android&show-tags=contributor&api-key=" + API_KEY;
+            "http://content.guardianapis.com/search";
+    //        "http://content.guardianapis.com/search?q=android&show-tags=contributor&api-key=" + API_KEY;
+
     //TAG for log file
     private static final String LOG_TAG = "MainActivity.java";
     //ID for LoaderManager to download data from The Guardian Site
@@ -78,13 +85,54 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<List<News>> onCreateLoader(int id, Bundle bundle) {
-        Loader<List<News>> loader = null;
-        if (id == LOADER_ID) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-            loader = new NewsLoader(this, NEWS_URL);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
         }
-        return loader;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<List<News>> onCreateLoader(int id, Bundle bundle) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String items = sharedPrefs.getString(
+                getString(R.string.settings_items_key),
+                getString(R.string.settings_items_default)
+        );
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_orderby_key),
+                getString(R.string.settings_orderby_default)
+        );
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(NEWS_URL);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value. For example, the `q=android`
+        uriBuilder.appendQueryParameter("q", "android");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("page-size", items);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("api-key", API_KEY);
+
+        // Return the completed uri `http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=10&minmag=minMagnitude&orderby=time
+
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -105,5 +153,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         adapter.clear();
+    }
+
+    //helper method for testing
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
